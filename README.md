@@ -14,7 +14,7 @@ by adding `eoai` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:eoai, "~> 0.1.0"}
+    {:eoai, git: "https://github.com/yorunoR/eoai.git", branch: "main"}
   ]
 end
 ```
@@ -37,6 +37,8 @@ config :eoai,
 
 ## Example
 
+### Chat
+
 ```elixir
 params = %{
   model: "gpt-3.5-turbo",
@@ -48,4 +50,30 @@ params = %{
 Eoai.Client.new()
 |> Eoai.Request.call(:chat, params)
 |> Eoai.Response.dig(["choices", 0, "message", "content"])
+```
+
+### Embeddings
+
+```elixir
+alias Eoai.Client
+alias Eoai.Request
+alias Eoai.Response
+
+client = Client.new()
+
+File.read!("all.txt")
+|> String.split("\n\n\n")
+|> Enum.map(fn sentence ->
+  String.replace(sentence, "\n", "")
+end)
+|> Enum.each(fn sentence ->
+  params = %{
+    model: "text-embedding-ada-002",
+    input: sentence
+  }
+
+  client
+  |> Request.call(:embeddings, params)
+  |> Response.dig(["data", 0, "embedding"])
+end)
 ```
