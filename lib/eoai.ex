@@ -1,18 +1,5 @@
 defmodule Eoai do
-  @moduledoc """
-  Documentation for `Eoai`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Eoai.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def run do
+    IO.inspect(:ok)
   end
 end
