@@ -1,8 +1,13 @@
 defmodule Eoai.Request do
+  alias __MODULE__
+
   def call(client, request, %{} = params) do
     case request do
       :chat ->
-        __MODULE__.Chat.run(client, params)
+        Request.Chat.run(client, params)
+
+      :embeddings ->
+        Request.Embeddings.run(client, params)
 
       _ ->
         "Undefined request"
