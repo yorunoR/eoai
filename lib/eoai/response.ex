@@ -2,15 +2,15 @@ defmodule Eoai.Response do
   require Logger
 
   def dig(response, keys) when is_list(keys) do
-    Enum.reduce_while(keys, response.body, fn key, json ->
+    Enum.reduce_while(keys, {:ok, response.body}, fn key, {:ok, json} ->
       case do_dig(key, json) do
         {:ok, result} ->
-          {:cont, result}
+          {:cont, {:ok, result}}
 
         _ ->
           Logger.error("Response format does not match.")
           IO.inspect(response.body)
-          {:halt, nil}
+          {:halt, {:error, nil}}
       end
     end)
   end
