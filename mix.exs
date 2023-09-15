@@ -21,7 +21,8 @@ defmodule Eoai.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:req, "~> 0.3"}
+      {:req, "~> 0.3"},
+      {:jason, "~> 1.4"}
     ]
   end
 end
