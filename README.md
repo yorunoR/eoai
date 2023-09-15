@@ -52,6 +52,31 @@ Eoai.Client.new()
 |> Eoai.Response.dig(["choices", 0, "message", "content"])
 ```
 
+### Chat Streaming
+
+```elixir
+params = %{
+  model: "gpt-3.5-turbo",
+  messages: [
+    %{role: "user", content: "こんにちは！"}
+  ],
+  stream: true
+}
+
+stream = fn data ->
+  data["choices"]
+  |> Enum.each(fn choice ->
+    case choice["finish_reason"] do
+      nil -> choice["delta"] |> IO.inspect()
+      _ -> nil
+    end
+  end)
+end
+
+Eoai.Client.new()
+|> Request.call(:chat, params, stream)
+```
+
 ### Embeddings
 
 ```elixir
